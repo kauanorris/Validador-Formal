@@ -3,7 +3,7 @@
 Este projeto consiste no desenvolvimento e análise empírica de um sistema aplicado de validação formal contendo três reconhecedores independentes, cada um correspondendo a um nível estrito da Hierarquia de Chomsky:
 1. **Linguagem Regular (LR):** Validador do formato tipográfico e estrutural de CPF brasileiro.
 2. **Linguagem Livre de Contexto (LLC):** Verificador de balanceamento de parênteses e escopos em expressões algébricas.
-3. **Linguagem Recursiva (R):** Validador de integridade e espelhamento binário de pacotes no formato $w\#w$.
+3. **Linguagem Recursiva (R):** Validador de integridade e espelhamento binário de pacotes no formato $w\w$.
 
 A meta central do trabalho é evidenciar na prática a inclusão estrita $LR \subsetneq LLC \subsetneq R$, analisando as restrições de armazenamento, direções de varredura e a volumetria de passos assintóticos de cada modelo computacional sem o uso de condicionais de fluxo tradicionais (`if/elif/else`).
 
