@@ -1,21 +1,17 @@
-# src/livre_contexto.py
 import sys
 
-class SimuladorPDA:  # <--- CERTIFIQUE-SE DE QUE ESTÁ EXATAMENTE ASSIM
+class SimuladorPDA:  
     def __init__(self):
-        # Alfabeto estendido para permitir variáveis e operadores comuns
         self.alfabeto = set("()abcdefghijklmnopqrstuvwxyz0123456789+-*/ ")
         self.estado_inicial = "q1"
         self.marcador_fundo = "Z"
         
-        # Estrutura: (estado, simbolo, topo_pilha) -> (novo_estado, tupla_novos_elementos_pilha)
         self.transicoes = {
             ("q1", "(", "Z"): ("q1", ("X", "Z")),
             ("q1", "(", "X"): ("q1", ("X", "X")),
             ("q1", ")", "X"): ("q1", ()),  # Tupla vazia simula o POP
         }
         
-        # Transições neutras para os demais caracteres (mantêm a pilha inalterada)
         caracteres_neutros = "abcdefghijklmnopqrstuvwxyz0123456789+-*/ "
         for char in caracteres_neutros:
             self.transicoes[("q1", char, "Z")] = ("q1", ("Z",))
@@ -44,7 +40,7 @@ class SimuladorPDA:  # <--- CERTIFIQUE-SE DE QUE ESTÁ EXATAMENTE ASSIM
                     pilha.append(elem)
                 
                 estado_atual = novo_estado
-                passos += 1  # Cada transição computada conta como 1 passo
+                passos += 1  
             else:
                 return False, passos
                 

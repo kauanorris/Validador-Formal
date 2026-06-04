@@ -1,54 +1,44 @@
-# src/recursiva.py
 import sys
 
-class SimuladorMT:  # <--- CERTIFIQUE-SE DE QUE ESTÁ EXATAMENTE ASSIM
+class SimuladorMT:  
     def __init__(self):
         self.alfabeto_entrada = set("01#")
         self.branco = "_"
         self.estado_inicial = "q0"
         self.estados_finais = {"q_aceita"}
         
-        # Estrutura: (estado, simbolo_lido) -> (novo_estado, simbolo_escrito, direcao_movimento)
         self.transicoes = {
-            # q0: lê o primeiro caractere não marcado da esquerda
             ("q0", "0"): ("q_procura_hash_0", "X", "R"),
             ("q0", "1"): ("q_procura_hash_1", "Y", "R"),
             ("q0", "#"): ("q_verifica_fim_esq", "#", "R"),
             
-            # q_procura_hash_0: pula caracteres em direção ao separador '#'
             ("q_procura_hash_0", "0"): ("q_procura_hash_0", "0", "R"),
             ("q_procura_hash_0", "1"): ("q_procura_hash_0", "1", "R"),
             ("q_procura_hash_0", "#"): ("q_procura_match_0", "#", "R"),
             
-            # q_procura_match_0: pula elementos já validados (X,Y) procurando o próximo '0' livre
             ("q_procura_match_0", "X"): ("q_procura_match_0", "X", "R"),
             ("q_procura_match_0", "Y"): ("q_procura_match_0", "Y", "R"),
             ("q_procura_match_0", "0"): ("q_retorna", "X", "L"),
             
-            # q_procura_hash_1: pula caracteres em direção ao separador '#'
             ("q_procura_hash_1", "0"): ("q_procura_hash_1", "0", "R"),
             ("q_procura_hash_1", "1"): ("q_procura_hash_1", "1", "R"),
             ("q_procura_hash_1", "#"): ("q_procura_match_1", "#", "R"),
             
-            # q_procura_match_1: pula elementos já validados (X,Y) procurando o próximo '1' livre
             ("q_procura_match_1", "X"): ("q_procura_match_1", "X", "R"),
             ("q_procura_match_1", "Y"): ("q_procura_match_1", "Y", "R"),
             ("q_procura_match_1", "1"): ("q_retorna", "Y", "L"),
             
-            # q_retorna: move a cabeça para a esquerda retornando até o '#'
             ("q_retorna", "0"): ("q_retorna", "0", "L"),
             ("q_retorna", "1"): ("q_retorna", "1", "L"),
             ("q_retorna", "X"): ("q_retorna", "X", "L"),
             ("q_retorna", "Y"): ("q_retorna", "Y", "L"),
             ("q_retorna", "#"): ("q_retorna_esq", "#", "L"),
             
-            # q_retorna_esq: move para a esquerda até encontrar o último marcador (X ou Y)
             ("q_retorna_esq", "0"): ("q_retorna_esq", "0", "L"),
             ("q_retorna_esq", "1"): ("q_retorna_esq", "1", "L"),
             ("q_retorna_esq", "X"): ("q0", "X", "R"),
             ("q_retorna_esq", "Y"): ("q0", "Y", "R"),
             
-            # q_verifica_fim_esq: garante que não sobraram caracteres não marcados à direita
             ("q_verifica_fim_esq", "X"): ("q_verifica_fim_esq", "X", "R"),
             ("q_verifica_fim_esq", "Y"): ("q_verifica_fim_esq", "Y", "R"),
             ("q_verifica_fim_esq", "_"): ("q_aceita", "_", "R"),
@@ -62,7 +52,7 @@ class SimuladorMT:  # <--- CERTIFIQUE-SE DE QUE ESTÁ EXATAMENTE ASSIM
         cabeca = 0
         estado_atual = self.estado_inicial
         passos = 0
-        max_passos = 20000  # Proteção contra loops infinitos
+        max_passos = 20000  
         
         while estado_atual not in self.estados_finais and passos < max_passos:
             if cabeca >= len(fita):
@@ -79,7 +69,7 @@ class SimuladorMT:  # <--- CERTIFIQUE-SE DE QUE ESTÁ EXATAMENTE ASSIM
                 fita[cabeca] = simbolo_escrito
                 cabeca += 1 if direcao == "R" else -1
                 estado_atual = novo_estado
-                passos += 1  # Cada ação completa da MT conta como 1 passo
+                passos += 1  
             else:
                 return False, passos
                 
